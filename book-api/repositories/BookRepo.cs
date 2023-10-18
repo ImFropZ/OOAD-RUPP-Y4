@@ -29,7 +29,7 @@
 
     public List<Book> Query(String? key) {
       if (key != null) {
-          return _books;
+          return _books.Where(b => b.Key == key).ToList();
       }
       return _books;
     }
@@ -49,6 +49,15 @@
       }
       bookToUpdate.Title = book.Title;
       bookToUpdate.Author = book.Author;
+      return true;
+    }
+
+    public bool Delete(String key) {
+      var bookToDelete = _books.FirstOrDefault(b => b.Key == key);
+      if (bookToDelete == null) {
+        return false;
+      }
+      _books.Remove(bookToDelete);
       return true;
     }
   }
